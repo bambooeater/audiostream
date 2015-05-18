@@ -72,12 +72,12 @@ class SineSource(ThreadSource):
             i += 2
         return buf.tostring()
 
-    def sine(self, float frequency=440.0, float amplitude=0.5):
+    def sine(self, float frequency=440.0, float amplitude=1.0):
         cdef int i = 0
         cdef float sincomp
         cdef list lookup_table
         cdef float pi = 3.141592653589793
-        cdef float f = 65535 / pi
+        cdef float f = 2**15 - 1
         cdef float pi2 = 2.0 * pi
         cdef float af = f * amplitude
         cdef float pi2freq = pi2 * frequency
