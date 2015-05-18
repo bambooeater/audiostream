@@ -6,21 +6,30 @@ from audiostream.sources.thread import ThreadSource
 
 class SineSource(ThreadSource):
 
-    def __init__(self, stream, frequency, *args, **kwargs):
+    def __init__(self, stream, frequency, amplitude=1.0, *args, **kwargs):
         ThreadSource.__init__(self, stream, *args, **kwargs)
         self._freq = float(frequency)
+        self._amp = float(amplitude)
         self.chunksize = kwargs.get('chunksize', 64)
         self.next_gen_left = self.next_gen_right = None
-        self.gen_left = self.sine(frequency=frequency)
-        self.gen_right = self.sine(frequency=frequency)
+        self.gen_left = self.sine(frequency=frequency, amplitude=amplitude)
+        self.gen_right = self.sine(frequency=frequency, amplitude=amplitude)
 
     def __set_freq__(self, float freq):
         self._freq = freq
-        self.next_gen_left = self.sine(frequency=freq)
-        self.next_gen_right = self.sine(frequency=freq)
+        self.next_gen_left = self.sine(frequency=freq, amplitude=self._amp)
+        self.next_gen_right = self.sine(frequency=freq, amplitude=self._amp)
     def __get_freq__(self):
         return self._freq
     frequency = property(__get_freq__, __set_freq__)
+
+    def __set_amp__(self, float amp):
+        self._amp = amp
+        self.next_gen_left = self.sine(frequency=self._freq, amplitude=amp)
+        self.next_gen_right = self.sine(frequency=self._freq, amplitude=amp)
+    def __get_amp__(self):
+        return self._amp
+    amplitude = property(__get_amp__, __set_amp__)    
 
     def get_bytes(self):
         if self.channels == 1:
