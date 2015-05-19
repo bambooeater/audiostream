@@ -91,8 +91,8 @@ class SineSource(ThreadSource):
         cdef float af = f * amplitude
         cdef float pi2freq = pi2 * frequency
         cdef int period = int(self.rate / frequency)
-        amplitude = max(0.0, min(1.0, amplitude))
-        lookup_table = []
+        # yes, no check, we want it to clip:
+        # amplitude = max(0.0, min(1.0, amplitude))
         try:
             while i < period:
                 sincomp = sin(pi2freq *(float(i%period)/float(self.rate)))
