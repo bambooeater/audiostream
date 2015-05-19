@@ -93,7 +93,7 @@ extensions += [makeExtension(x) for x in (
 
 setup(
     name='audiostream',
-    version='0.2',
+    version='0.2dev',
     author='Mathieu Virbel, Dustin Lacewell',
     author_email='mat@kivy.org',
     packages=['audiostream', 'audiostream.sources', 'audiostream.platform'],
